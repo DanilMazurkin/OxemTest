@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
+use App\Category;
 use App\Http\Requests\Api\ProductsFormRequest;
 
 class ProductController extends Controller
@@ -18,7 +19,7 @@ class ProductController extends Controller
     	$quantity = $request->input('quantity');
     	$category_id = $request->input('category_id');
 
-    	Product::create([
+    	$product = Product::create([
     		'external_id' => $external_id,
     		'name' => $name,
     		'describe' => $describe, 
@@ -27,9 +28,12 @@ class ProductController extends Controller
     		'category_id' => $category_id
     	]);
 
-
-    	return response()->json([
-            'message' => 'Product was success create!'
+        $categories = Category::find([3, 4]); // Modren Chairs, Home Chairs
+        $product->categories()->attach($categories);
+    	
+        return response()->json([
+            'message' => 'Product was success create!',
+            'categories' => $categories
         ], 200);
     }
 }

@@ -109,11 +109,20 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        Category::destroy($id);
+    {   
 
-        return response()->json([
-            'message' => 'You were successfully delete category!'
-        ], 200);
+        $category = Category::find($id);
+
+        if (isset($category)) 
+        {
+            Category::destroy($id);
+
+            return response()->json([
+                'message' => 'You were successfully delete category!'
+            ], 200);
+        } else 
+            return response()->json([
+                'message' => 'No category with id'
+            ], 200);
     }
 }
