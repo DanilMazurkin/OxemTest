@@ -35,11 +35,17 @@ Route::group(['namespace' => 'Api'], function () {
 
 		Route::middleware(['auth:api'])->group(function () {
 
+					Route::get('product', "ProductController@index");
+					Route::get('product/{id}', "ProductController@show");
+					Route::get('product/category/{id_category}', "ProductController@showByCategory");
 					Route::post('create/product', "ProductController@create");
-					
+					Route::delete('product/{id}', "ProductController@destroy");
+
+
 					Route::get('category', "CategoryController@index");
 					Route::post('create/category', "CategoryController@store");
 					Route::put('update/category/{id}', "CategoryController@update");
 					Route::delete('delete/category/{id}', "CategoryController@destroy");
+		
 		});
 }); 

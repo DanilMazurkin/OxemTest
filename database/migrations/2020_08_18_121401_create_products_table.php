@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->timestamp('created_on');
             $table->unsignedBigInteger('external_id');
             $table->string('describe')->length(1000);
             $table->string('name')->length(200);

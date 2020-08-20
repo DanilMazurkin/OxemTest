@@ -98,7 +98,7 @@ class CategoryController extends Controller
         } else 
             return response()->json([
                 'message' => 'No category with id'
-            ], 200);
+            ], 401);
 
     }
 
@@ -123,6 +123,6 @@ class CategoryController extends Controller
         } else 
             return response()->json([
                 'message' => 'No category with id'
-            ], 200);
+            ], 401);
     }
 }
