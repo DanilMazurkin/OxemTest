@@ -89,7 +89,8 @@ class ProductController extends Controller
         
         $id_products = DB::table('category_product')->select('product_id')->where('category_id', '=', $id_category)->get();
             
-        if (isset($id_products[0])) {
+        if (isset($id_products[0])) 
+        {
                 $products = array();
 
                 
@@ -109,9 +110,71 @@ class ProductController extends Controller
               ], 401);
     }   
 
+    public function showByPrice($parametr) {
+        
+
+
+        if ($parametr === "maxmin") 
+        {   
+
+            $products = Product::orderBy('price', 'DESC')->get();
+
+
+            return response()->json([
+                'success' => true, 
+                'parametr' => $parametr, 
+                'products' => $products
+            ]);
+        }
+        else 
+        {   
+
+            $products = Product::orderBy('price')->get();
+
+
+            return response()->json([
+                'success' => true, 
+                'parametr' => $parametr, 
+                'products' => $products
+            ]);
+        }
+
+    }
+
+
+    public function showByDate($parametr) {
+
+        if ($parametr == "maxmin")
+        {
+            $products = Product::orderBy('created_on', 'DESC')->get();
+
+            return response()->json([
+                'success' => true, 
+                'parametr' => $parametr, 
+                'products' => $products
+            ]);
+
+        }
+        else
+        {
+            $products = Product::orderBy('created_on')->get();
+
+
+            return response()->json([
+                'success' => true, 
+                'parametr' => $parametr, 
+                'products' => $products
+            ]);
+        }
+
+    }
+
 
     public function destroy($id) {
+
         $product = Product::find($id);
+        $product->categories()->detach($product);
+
 
         if (isset($product)) 
         {

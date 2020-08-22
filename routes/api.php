@@ -36,6 +36,8 @@ Route::group(['namespace' => 'Api'], function () {
 		Route::middleware(['auth:api'])->group(function () {
 
 					Route::get('product', "ProductController@index");
+					Route::get('product/sort/price/{parametr}', "ProductController@showByPrice");
+					Route::get('product/sort/date/{parametr}', "ProductController@showByDate");
 					Route::get('product/{id}', "ProductController@show");
 					Route::get('product/category/{id_category}', "ProductController@showByCategory");
 					Route::post('create/product', "ProductController@create");
