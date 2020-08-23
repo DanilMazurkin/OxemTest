@@ -44,58 +44,48 @@ class ProductUpdate extends Command
 
         $products_json = file_get_contents(public_path('products.json'));
         $products_from_file = json_decode($products_json, true);
-        $id_arr = array();
-
         $products_all = Product::all();
-        $categories_all = Category::all();
 
-        foreach ($products_all as $product) 
-            $id_arr[] = $product->id;
-
-        if (isset($products_all[0]))
-        {
             for ($i = 0; $i < count($products_from_file); $i++)
             {
-                    $created_on = Carbon::now();
-                    $external_id = $products_from_file[$i]['external_id'];
-                    $name = $products_from_file[$i]["name"];
-                    $price = $products_from_file[$i]["price"];
-                    $quantity = $products_from_file[$i]["quantity"];
-                    $category_id = $products_from_file[$i]['category_id'];
+                        $created_on = Carbon::now();
+                        $external_id = $products_from_file[$i]['external_id'];
+                        $name = $products_from_file[$i]["name"];
+                        $price = $products_from_file[$i]["price"];
+                        $quantity = $products_from_file[$i]["quantity"];
+                        $category_id = $products_from_file[$i]['category_id'];
 
-                    $categories_current = $categories_all[$i]->id;
+                        $id_current = $products_all[$i]->id;
 
-                    $validator = Validator::make([
-                        'external_id' => $external_id,
-                        'name' => $name,
-                        'price' => $price,
-                        'category_id' => $category_id, 
-                        'quantity' => $quantity
-                    ], [
-                      'external_id' => ['required', 'integer'],
-                       'name' => ['required', 'string','max:255'],
-                       'describe' => ['required', 'string','max:1000'],
-                       'price' => ['required', 'numeric'],
-                       'quantity' => ['required', 'integer'],
-                       'category_id' => ['required', 'json']
-                    ]);
+                        $validator = Validator::make([
+                            'external_id' => $external_id,
+                            'name' => $name,
+                            'price' => $price,
+                            'category_id' => $category_id, 
+                            'quantity' => $quantity
+                        ], [
+                          'external_id' => ['required', 'integer'],
+                           'name' => ['required', 'string','max:255'],
+                           'describe' => ['required', 'string','max:1000'],
+                           'price' => ['required', 'numeric'],
+                           'quantity' => ['required', 'integer'],
+                           'category_id' => ['required', 'json']
+                        ]);
 
-                    Product::whereId($id_arr[$i])->update(
-                        ['name' => $products_from_file[$i]['name']],
-                        ['external_id' => $products_from_file[$i]['external_id']],
-                        ['price' => $products_from_file[$i]['price']],
-                        ['quantity' => $products_from_file[$i]['quantity']],
-                        ['category_id' =>  $products_from_file[$i]['category_id']],
-                        ['created_on' =>   $created_on]
-                    );
+                        $product = Product::whereId($id_current)->first();
 
-                    $categories_belongs = Category::find($categories_current); 
-                    $product->categories()->sync($categories_belongs);
-            }
+                        $product->update(
+                            ['name' => $products_from_file[$i]['name']],
+                            ['external_id' => $products_from_file[$i]['external_id']],
+                            ['price' => $products_from_file[$i]['price']],
+                            ['quantity' => $products_from_file[$i]['quantity']],
+                            ['category_id' =>  $products_from_file[$i]['category_id']],
+                            ['created_on' =>   $created_on]
+                        );
+    
 
-            $this->info('Product was update!');
-        } else
-            $this->info('Nothing update!');
+                $this->info('Product was update from products.json!');
+            } 
 
 
         return 0;
