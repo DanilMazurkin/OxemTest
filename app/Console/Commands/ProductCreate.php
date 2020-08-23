@@ -49,11 +49,9 @@ class ProductCreate extends Command
 
         $categories_all = Category::all();
 
-        if (isset($categories_all[0])) 
-        {
+        if (isset($categories_all[0])) {
                 
-                for ($i = 0; $i < count($products); $i++) 
-                {
+                for ($i = 0; $i < count($products); $i++) {
                     $created_on = Carbon::now();
                     $external_id = $products[$i]['external_id'];
                     $name = $products[$i]["name"];

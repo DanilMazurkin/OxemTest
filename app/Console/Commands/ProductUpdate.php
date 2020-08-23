@@ -46,8 +46,7 @@ class ProductUpdate extends Command
         $products_from_file = json_decode($products_json, true);
         $products_all = Product::all();
 
-            for ($i = 0; $i < count($products_from_file); $i++)
-            {
+            for ($i = 0; $i < count($products_from_file); $i++) {
                         $created_on = Carbon::now();
                         $external_id = $products_from_file[$i]['external_id'];
                         $name = $products_from_file[$i]["name"];

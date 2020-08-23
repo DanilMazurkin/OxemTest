@@ -43,8 +43,7 @@ class CategoryCreate extends Command
         $categories_json = file_get_contents(public_path('categories.json'));
         $categories = json_decode($categories_json, true);
 
-        for ($i = 0; $i < count($categories); $i++) 
-        {
+        for ($i = 0; $i < count($categories); $i++) {
             $name = $categories[$i]['name'];
             $external_id = $categories[$i]['external_id'];
 

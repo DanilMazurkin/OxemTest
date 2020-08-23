@@ -9,28 +9,17 @@ use App\Category;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $categories = Category::all();
 
         return response()->json([
+            'success' => true,
             $categories
         ], 200);
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    
     
     public function store(CategoryFormRequest $request)
     {
@@ -45,39 +34,12 @@ class CategoryController extends Controller
         ]);
        
         return response()->json([
+            'success' => true,
             'message' => 'You were successfully create category!'
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(CategoryFormRequest $request, $id)
     {
         $name = $request->input('name');
@@ -85,43 +47,39 @@ class CategoryController extends Controller
 
         $category = Category::find($id);
 
-        if (isset($category)) 
-        {
+        if (isset($category)) {
             Category::where('id', $id)->update([
                 'name' => $name,
                 'external_id' => $external_id
             ]);
 
             return response()->json([
+                'success' => true,
                 'message' => 'You were successfully update category!'
             ], 200);
         } else 
             return response()->json([
+                'success' => false,
                 'message' => 'No category with id'
             ], 401);
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {   
 
         $category = Category::find($id);
 
-        if (isset($category)) 
-        {
+        if (isset($category)) {
             Category::destroy($id);
 
             return response()->json([
+                'success' => true,
                 'message' => 'You were successfully delete category!'
             ], 200);
         } else 
             return response()->json([
+                'success' => false,
                 'message' => 'No category with id'
             ], 401);
     }

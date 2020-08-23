@@ -89,8 +89,7 @@ class ProductController extends Controller
         
         $id_products = DB::table('category_product')->select('product_id')->where('category_id', '=', $id_category)->get();
             
-        if (isset($id_products[0])) 
-        {
+        if (isset($id_products[0])) {
                 $products = array();
 
                 
@@ -114,8 +113,7 @@ class ProductController extends Controller
         
 
 
-        if ($parametr === "maxmin") 
-        {   
+        if ($parametr === "maxmin")  {   
 
             $products = Product::orderBy('price', 'DESC')->get();
 
@@ -125,9 +123,7 @@ class ProductController extends Controller
                 'parametr' => $parametr, 
                 'products' => $products
             ]);
-        }
-        else 
-        {   
+        } else {   
 
             $products = Product::orderBy('price')->get();
 
@@ -144,8 +140,7 @@ class ProductController extends Controller
 
     public function showByDate($parametr) {
 
-        if ($parametr == "maxmin")
-        {
+        if ($parametr == "maxmin") {
             $products = Product::orderBy('created_on', 'DESC')->get();
 
             return response()->json([
@@ -154,9 +149,7 @@ class ProductController extends Controller
                 'products' => $products
             ]);
 
-        }
-        else
-        {
+        } else {
             $products = Product::orderBy('created_on')->get();
 
 
@@ -176,15 +169,16 @@ class ProductController extends Controller
         $product->categories()->detach($product);
 
 
-        if (isset($product)) 
-        {
+        if (isset($product)) {
             Product::destroy($id);
 
             return response()->json([
+                'success' => true,
                 'message' => 'You were successfully delete product!'
             ], 200);
         } else 
             return response()->json([
+                'success' => false,
                 'message' => 'No product with id'
             ], 401);
     }
