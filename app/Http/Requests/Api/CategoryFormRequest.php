@@ -24,8 +24,8 @@ class CategoryFormRequest extends FormRequest
     public function rules()
     {
         return [
-            //'external_id' => ['required', 'integer'],
-            //'name' => ['required', 'string','max:255'],
+            'external_id' => ['required', 'integer'],
+            'name' => ['required', 'string','max:255'],
         ];
     }
 }
