@@ -28,4 +28,5 @@ class CategoryFormRequest extends FormRequest
             'name' => ['required', 'string','max:255'],
         ];
     }
+
 }

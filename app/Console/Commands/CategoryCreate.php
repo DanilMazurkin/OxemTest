@@ -42,6 +42,18 @@ class CategoryCreate extends Command
 
         $categories_json = file_get_contents(public_path('categories.json'));
         $categories = json_decode($categories_json, true);
+        $all_categories = Category::all();
+
+        if (empty($categories)) {
+            $this->info('Categories.json is empty!');
+            return 0;
+        } 
+
+        if (count($all_categories) != 0) {
+            $this->info('Clear table with categories');
+            return 0;
+        }
+
 
         for ($i = 0; $i < count($categories); $i++) {
             $name = $categories[$i]['name'];
@@ -64,7 +76,8 @@ class CategoryCreate extends Command
 
         }
 
-        $this->info('Categories from categories.json was create!');
+        
+            $this->info('Categories from categories.json was create!');
 
         return 0;
     }

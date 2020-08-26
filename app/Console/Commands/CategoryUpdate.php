@@ -45,6 +45,14 @@ class CategoryUpdate extends Command
         $id_arr = array();
         $categories = Category::all();
 
+
+
+        if (empty($categories_from_file)) {
+            $this->info('Categories.json is empty!');
+            return 0;
+        }
+
+
         foreach ($categories as $category) 
             $id_arr[] = $category->id;
 
@@ -70,7 +78,7 @@ class CategoryUpdate extends Command
                     );
             }
                 
-            $this->info("Category was update!");
+            $this->info("Categories was update!");
 
         } else
             $this->info('Nothing update!');

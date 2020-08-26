@@ -46,6 +46,12 @@ class ProductUpdate extends Command
         $products_from_file = json_decode($products_json, true);
         $products_all = Product::all();
 
+        if (empty($products_from_file)) {
+            $this->info('Products.json is empty!');
+            return 0;
+        }
+
+
             for ($i = 0; $i < count($products_from_file); $i++) {
                         $created_on = Carbon::now();
                         $external_id = $products_from_file[$i]['external_id'];

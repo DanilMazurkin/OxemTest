@@ -123,7 +123,7 @@ class ProductController extends Controller
                 'parametr' => $parametr, 
                 'products' => $products
             ]);
-        } else {   
+        } elseif ($parametr == "minmax") {   
 
             $products = Product::orderBy('price')->get();
 
@@ -149,7 +149,7 @@ class ProductController extends Controller
                 'products' => $products
             ]);
 
-        } else {
+        } elseif ($parametr == "minmax") {
             $products = Product::orderBy('created_on')->get();
 
 
