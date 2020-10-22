@@ -88,28 +88,22 @@
 
 ### Установка
 
-1. Cначала надо склонировать репозиторий и перейти в папку
-	> git clone https://github.com/DanilMazurkin/OxemTest.git oxem  
-	> cd oxem
-2. Установить пакеты
-	> composer install
-3. Cоздать .env файл
-	> cp .env.example .env
-4. Установить ключ проекта
-	> php artisan key:generate
-5. Установить следующие строки в .env
-	> DB_HOST=localhost  
-	> DB_DATABASE={имя_вашей_БД}
-6. Ввести команду
-	> php artisan config:cache
-7. Запустить миграции
-	> php artisan migrate
-8. Установить ключи для passport
-	> php artisan passport:install
-9. Посеять данные в БД
-	> php artisan db:seed
-10. Запустить сервер
-	> php artisan serve
+1. > git clone  https://github.com/DanilMazurkin/TEST-1.git
+   > cd TEST-1
+2. > docker-compose build
+3. > docker-compose up -d
+4. > sudo docker exec -it {CONTAINER_APP_ID} bash
+5. > cp .env.example .env
+6. > composer install
+7. > php artisan key:generate
+8. В .env файле
+	> DB_HOST=test-1_db_1  
+    > DB_PORT=3306  
+    > DB_DATABASE=laraapp_db  
+9. > php artisan config:cache
+10. > php artisan migrate
+11. > chown -R www-data:www-data /var/www
+12. > chmod 755 /var/www
 
 ### Работа с консольной командой
 
