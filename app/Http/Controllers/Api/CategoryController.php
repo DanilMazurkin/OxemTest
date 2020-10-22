@@ -2,85 +2,87 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\CategoryFormRequest;
-use App\Category;
+
 
 class CategoryController extends Controller
 {
-    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $categories = Category::all();
+        $all = Category::all();
 
         return response()->json([
-            'success' => true,
-            $categories
+            'categories' => $all
         ], 200);
+    }
+
+    /*
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function store(CategoryFormRequest $request)
+    {
+        Category::create($request->input());
+
+        return response()->json([
+            'Category was created!'
+        ], 201);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Category $category)
+    {   
+        return response()->json([
+            'category' => $category
+        ], 200);       
     }
 
     
-    public function store(CategoryFormRequest $request)
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Category $category)
     {
-        $name = $request->input('name');
-        $external_id = $request->input('external_id');
+        $category->update($request->input());
 
-
-        Category::create([
-            'name' => $name,
-            'external_id' => $external_id,
-
-        ]);
-       
         return response()->json([
-            'success' => true,
-            'message' => 'You were successfully create category!'
+            'Category was update!'
         ], 200);
     }
 
-
-    public function update(CategoryFormRequest $request, $id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Category $category)
     {
-        $name = $request->input('name');
-        $external_id = $request->input('external_id');
+        $category->delete();
 
-        $category = Category::find($id);
-
-        if (isset($category)) {
-            Category::where('id', $id)->update([
-                'name' => $name,
-                'external_id' => $external_id
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'You were successfully update category!'
-            ], 200);
-        } else 
-            return response()->json([
-                'success' => false,
-                'message' => 'No category with id'
-            ], 401);
-
-    }
-
-    public function destroy($id)
-    {   
-
-        $category = Category::find($id);
-
-        if (isset($category)) {
-            Category::destroy($id);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'You were successfully delete category!'
-            ], 200);
-        } else 
-            return response()->json([
-                'success' => false,
-                'message' => 'No category with id'
-            ], 401);
+        return response()->json([
+            'messages' => 'Category was success deleted!'
+        ], 201);
     }
 }

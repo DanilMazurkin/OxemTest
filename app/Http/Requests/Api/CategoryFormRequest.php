@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CategoryFormRequest extends FormRequest
 {
@@ -25,8 +27,22 @@ class CategoryFormRequest extends FormRequest
     {
         return [
             'external_id' => ['required', 'integer'],
+            'id_parent_category' => ['required', 'integer'],
             'name' => ['required', 'string','max:255'],
         ];
     }
 
+    public function messages() 
+    {
+        return [
+            'external_id.required' => ':attribute is required',
+            'id_parent_category.required' => ':attribute is required',
+            'name.required' => ':attribute is required'
+        ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+      throw new HttpResponseException(response()->json($validator->errors(), 422));
+    }
 }
