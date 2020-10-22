@@ -3,6 +3,9 @@
 namespace App\Http\Requests\Api\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 
 class RegisterFormRequest extends FormRequest
 {
@@ -28,5 +31,19 @@ class RegisterFormRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6'],
         ];
+    }
+
+    public function messages() 
+    {
+        return [
+            'name.required' => ':attribute is required',
+            'email.required' => ':attribute is required',
+            'password.required' => ':attribute is requierd',
+        ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+      throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }
