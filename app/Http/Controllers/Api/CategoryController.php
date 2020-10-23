@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\CategoryFormRequest;
+use App\Http\Requests\Api\CategoriesFormRequest;
 
 
 class CategoryController extends Controller
@@ -31,7 +31,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(CategoryFormRequest $request)
+    public function store(CategoriesFormRequest $request)
     {
         Category::create($request->input());
 
@@ -62,7 +62,7 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, CategoriesFormRequest $category)
     {
         $category->update($request->input());
 

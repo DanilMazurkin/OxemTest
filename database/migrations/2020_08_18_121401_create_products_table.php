@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamp('created_on');
             $table->unsignedBigInteger('external_id');
-            $table->string('describe')->length(1000)->default("From Json");
+            $table->string('describe')->length(1000)->nullable()->default(NULL);
             $table->string('name')->length(200);
             $table->float('price', 8, 2);
             $table->integer('quantity');

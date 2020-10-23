@@ -11,7 +11,6 @@ $factory->define(Product::class, function (Faker $faker) {
         'describe' => $faker->realText($maxNbChars = 200, $indexSize = 2), 
         'name' => $faker->name, 
         'price' => $faker->randomFloat(NULL, 0, 1000), 
-        'category_id' => [$faker->randomDigit(), $faker->randomDigit()],  
         'quantity' => $faker->randomDigit(), 
         'created_on' => $faker->dateTimeBetween('-3 months','-2 months')
     ];

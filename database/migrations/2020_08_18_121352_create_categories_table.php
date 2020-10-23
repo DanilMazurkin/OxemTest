@@ -18,7 +18,6 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->integer('id_parent_category')->nullable()->default(0);
             $table->unsignedBigInteger('external_id');
-
         });
     }
 
