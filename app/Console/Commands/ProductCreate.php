@@ -41,73 +41,15 @@ class ProductCreate extends Command
      */
     public function handle()
     {
+        $product = new Product;
+        $products = $product->checkHasFromJson();
 
-        $products_json = file_get_contents(public_path('products.json'));
-        $products = json_decode($products_json, true);
-        $categories_json = file_get_contents(public_path('categories.json'));
-        $categories = json_decode($categories_json, true);
-
-        if (empty($products) || empty($categories)) {
-            $this->info("Products.json or categories.json is empty");
-            return 0;
-        }
-
-        $categories_all = Category::all();
-        $products_all = Product::all();
-
-        if (count($categories_all) == 0) {
-            $this->info('First create categories');
-            return 0;
-        }
-
-        if (isset($categories_all[0]) && count($products_all) == 0) {
-                
-                for ($i = 0; $i < count($products); $i++) {
-                   
-                    $created_on = Carbon::now();
-                    $external_id = $products[$i]['external_id'];
-                    $name = $products[$i]["name"];
-                    $price = $products[$i]["price"];
-                    $quantity = $products[$i]["quantity"];
-                    $category_id = $products[$i]['category_id'];
-
-                    $categories_current = $categories_all[$i]->id;
-
-
-                    $validator = Validator::make([
-                        'external_id' => $external_id,
-                        'name' => $name,
-                        'price' => $price,
-                        'category_id' => $category_id, 
-                        'quantity' => $quantity
-                    ], [
-                      'external_id' => ['required', 'integer'],
-                       'name' => ['required', 'string','max:255'],
-                       'describe' => ['required', 'string','max:1000'],
-                       'price' => ['required', 'numeric'],
-                       'quantity' => ['required', 'integer'],
-                       'category_id' => ['required', 'json']
-                    ]);
-
-                    $product = Product::create([
-                        'external_id' => $external_id,
-                        'created_on' => $created_on,
-                        'name' => $name,
-                        'price' => $price, 
-                        'quantity' => $quantity, 
-                        'category_id' => $category_id
-                    ]); 
-
-                    $categories_belongs = Category::find($categories_current); 
-                    $product->categories()->attach($categories_belongs);
-                }
-
-                $this->info("Create products!");
+        if ($products != 0)
+        {
+            $product->createProducts($products);
+            $this->info('Products from JSON was created!');
         } else 
-            $this->info("First clear products table");
-        
-
-
+            $this->info('JSON file is empty!');
 
         return 0;
     }

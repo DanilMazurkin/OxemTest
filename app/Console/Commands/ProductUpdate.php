@@ -15,7 +15,7 @@ class ProductUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'product:update';
+    protected $signature = 'product:update {--id=*}';
 
     /**
      * The console command description.
@@ -41,56 +41,25 @@ class ProductUpdate extends Command
      */
     public function handle()
     {   
+        $product = new Product;
+        $products = $product->checkHasFromJson();
 
-        $products_json = file_get_contents(public_path('products.json'));
-        $products_from_file = json_decode($products_json, true);
-        $products_all = Product::all();
+        if ($products != 0)
+        {   
+            $idProducts = $this->option('id');
 
-        if (empty($products_from_file)) {
-            $this->info('Products.json is empty!');
-            return 0;
-        }
+            if (count($idProducts) != count($products)) 
+            {
+                $this->info('Need '.count($products)." id!");
+                return 0;
+            }
 
+            $product->updateProducts($idProducts, $products);
+            $this->info('Products from JSON was updated!');
+        
+        } else 
+            $this->info('JSON file is empty!');
 
-            for ($i = 0; $i < count($products_from_file); $i++) {
-                        $created_on = Carbon::now();
-                        $external_id = $products_from_file[$i]['external_id'];
-                        $name = $products_from_file[$i]["name"];
-                        $price = $products_from_file[$i]["price"];
-                        $quantity = $products_from_file[$i]["quantity"];
-                        $category_id = $products_from_file[$i]['category_id'];
-
-                        $id_current = $products_all[$i]->id;
-
-                        $validator = Validator::make([
-                            'external_id' => $external_id,
-                            'name' => $name,
-                            'price' => $price,
-                            'category_id' => $category_id, 
-                            'quantity' => $quantity
-                        ], [
-                          'external_id' => ['required', 'integer'],
-                           'name' => ['required', 'string','max:255'],
-                           'describe' => ['required', 'string','max:1000'],
-                           'price' => ['required', 'numeric'],
-                           'quantity' => ['required', 'integer'],
-                           'category_id' => ['required', 'json']
-                        ]);
-
-                        $product = Product::whereId($id_current)->first();
-
-                        $product->update(
-                            ['name' => $products_from_file[$i]['name']],
-                            ['external_id' => $products_from_file[$i]['external_id']],
-                            ['price' => $products_from_file[$i]['price']],
-                            ['quantity' => $products_from_file[$i]['quantity']],
-                            ['category_id' =>  $products_from_file[$i]['category_id']],
-                            ['created_on' =>   $created_on]
-                        );
-    
-
-                $this->info('Product was update from products.json!');
-            } 
 
 
         return 0;

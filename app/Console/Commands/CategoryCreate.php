@@ -20,7 +20,7 @@ class CategoryCreate extends Command
      *
      * @var string
      */
-    protected $description = 'Create category';
+    protected $description = 'Create categories from json/categories.json';
 
     /**
      * Create a new command instance.
@@ -39,45 +39,15 @@ class CategoryCreate extends Command
      */
     public function handle()
     {
+        $category = new Category;
+        $categories = $category->checkHasFromJson();
 
-        $categories_json = file_get_contents(public_path('categories.json'));
-        $categories = json_decode($categories_json, true);
-        $all_categories = Category::all();
-
-        if (empty($categories)) {
-            $this->info('Categories.json is empty!');
-            return 0;
-        } 
-
-        if (count($all_categories) != 0) {
-            $this->info('Clear table with categories');
-            return 0;
-        }
-
-
-        for ($i = 0; $i < count($categories); $i++) {
-            $name = $categories[$i]['name'];
-            $external_id = $categories[$i]['external_id'];
-
-
-            $validator = Validator::make([
-                'external_id' => $external_id,
-                'name' => $name,
-
-            ], [
-              'external_id' => ['required', 'integer'],
-              'name' => ['required', 'string','max:255']
-            ]);
-
-            Category::create([
-                'name' => $name,
-                'external_id' => $external_id
-            ]);
-
-        }
-
-        
-            $this->info('Categories from categories.json was create!');
+        if ($categories != 0)
+        {
+            $category->createCategories($categories);
+            $this->info('Categories from JSON was created!');
+        } else 
+            $this->info('JSON file is empty!');
 
         return 0;
     }

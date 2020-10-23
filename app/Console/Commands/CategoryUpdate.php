@@ -13,14 +13,14 @@ class CategoryUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'category:update ';
+    protected $signature = 'category:update {--id=*}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update category';
+    protected $description = 'Update category from json/categories.json';
 
     /**
      * Create a new command instance.
@@ -40,50 +40,24 @@ class CategoryUpdate extends Command
     public function handle()
     {   
 
-        $categories_json = file_get_contents(public_path('categories.json'));
-        $categories_from_file = json_decode($categories_json, true);
-        $id_arr = array();
-        $categories = Category::all();
+        $category = new Category;
+        $categories = $category->checkHasFromJson();
 
-
-
-        if (empty($categories_from_file)) {
-            $this->info('Categories.json is empty!');
-            return 0;
-        }
-
-
-        foreach ($categories as $category) 
-            $id_arr[] = $category->id;
-
-
-        if (isset($category)) 
+        if ($categories != 0)
         {   
-            for ($i = 0; $i < count($categories_from_file); $i++) {
+            $idCategories = $this->option('id');
 
-                    $name = $categories_from_file[$i]['name'];                
-                    $external_id = $categories_from_file[$i]['external_id'];
-
-                    $validator = Validator::make([
-                                'external_id' => $external_id,
-                                'name' => $name
-                            ], [
-                              'external_id' => ['required', 'integer'],
-                               'name' => ['required', 'string','max:255']
-                    ]);
-
-                    $category = Category::whereId($id_arr[$i])->update(
-                        ['name' => $name],
-                        ['external_id' => $external_id]
-                    );
+            if (count($idCategories) != count($categories)) 
+            {
+                $this->info('Need '.count($categories)." id!");
+                return 0;
             }
-                
-            $this->info("Categories was update!");
 
-        } else
-            $this->info('Nothing update!');
+            $category->updateCategories($idCategories, $categories);
+            $this->info('Categories from JSON was updated!');
         
-
+        } else 
+            $this->info('JSON file is empty!');
 
 
         return 0;
