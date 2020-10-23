@@ -55,12 +55,14 @@ class ProductController extends Controller
 	}
 
 	public function indexByCategory($id_category) {
+		
 		$category = Category::find($id_category);
 		$products = $category->products;
 
 		return response()->json([
 			'products' => $products 
 		], 200);
+	
 	}
 
     public function store(ProductsFormRequest $request) 

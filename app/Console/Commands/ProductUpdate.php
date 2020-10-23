@@ -41,7 +41,7 @@ class ProductUpdate extends Command
      */
     public function handle()
     {   
-        $product = new Product;
+        $product = new Product();
         $products = $product->checkHasFromJson();
 
         if ($products != 0)

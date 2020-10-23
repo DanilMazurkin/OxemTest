@@ -40,7 +40,7 @@ class CategoryUpdate extends Command
     public function handle()
     {   
 
-        $category = new Category;
+        $category = new Category();
         $categories = $category->checkHasFromJson();
 
         if ($categories != 0)

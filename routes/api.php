@@ -38,18 +38,9 @@ Route::group(['namespace' => 'Api'], function () {
 					Route::get('product/{id}', "ProductController@show");
 					Route::get('product/category/{id_category}', "ProductController@indexByCategory");
 					Route::get('product', "ProductController@index");
-
-
+					
 					Route::post('product', "ProductController@store");
 					Route::delete('product/{id}', "ProductController@destroy");
-
-					//Route::get('product', "ProductController@index");
-					// Route::get('product/sort/price/{parametr}', "ProductController@showByPrice");
-					// Route::get('product/sort/date/{parametr}', "ProductController@showByDate");
-					// Route::get('product/{id}', "ProductController@show");
-					// Route::get('product/category/{id_category}', "ProductController@showByCategory");
-					// Route::post('create/product', "ProductController@create");
-					// Route::delete('product/{id}', "ProductController@destroy");
 
 
 					Route::resource('category', 'CategoryController');
