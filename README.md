@@ -109,6 +109,7 @@
 11. > chown -R www-data:www-data /var/www
 12. > chmod 755 /var/www
 13. > php artisan passport:install 
+14. > php artisan db:seed
 
 ### Работа с консольной командой
 
@@ -117,8 +118,8 @@
 1. Для создания продуктов из products.json
     > php artisan product:create  
 2. Для обновления продуктов из products.json
-    > php artisan product:update
+    > php artisan product:update {--id=*} // ID записей, которые необходимо обновить
 3. Для создания категорий из categories.json  
     > php artisan category:create  
 4. Для обновления категорий из categories.json  
-    > php artisan category:update
+    > php artisan category:update {--id=*} // ID записей, которые необходимо обновить
