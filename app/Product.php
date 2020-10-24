@@ -13,10 +13,10 @@ class Product extends Model
 
 	protected $casts = [
     'category_id' => 'array',
-  	];
+  ];
 
   	public function categories()
-	{
+	  {
     	return $this->belongsToMany(Category::class);
-	}
+	  }
 }
