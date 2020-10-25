@@ -43,12 +43,10 @@ class CategoryUpdate extends Command
         $category = new Category();
         $categories = $category->checkHasFromJsonCategories();
 
-        if ($categories != 0)
-        {   
+        if ($categories != 0) {   
             $idCategories = $this->option('id');
 
-            if (count($idCategories) != count($categories)) 
-            {
+            if (count($idCategories) != count($categories))  {
                 $this->info('Need '.count($categories)." id!");
                 return 0;
             }

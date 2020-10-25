@@ -36,7 +36,7 @@ class CategoryController extends Controller
         Category::create($request->input());
 
         return response()->json([
-            'Category was created!'
+            'message' => 'Category was created!'
         ], 201);
     }
 
@@ -67,7 +67,7 @@ class CategoryController extends Controller
         $category->update($request->input());
 
         return response()->json([
-            'Category was update!'
+            'message' => 'Category was update!'
         ], 200);
     }
 
@@ -82,7 +82,7 @@ class CategoryController extends Controller
         $category->delete();
 
         return response()->json([
-            'messages' => 'Category was success deleted!'
+            'message' => 'Category was success deleted!'
         ], 201);
     }
 }

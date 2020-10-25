@@ -46,8 +46,7 @@ class ProductCreate extends Command
         $product = new Product();
         $products = $product->checkHasFromJsonProducts();
 
-        if ($products != 0)
-        {
+        if ($products != 0) {
             $product->createProducts($products);
             $this->info('Products from JSON was created!');
         } else 

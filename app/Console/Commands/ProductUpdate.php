@@ -46,12 +46,10 @@ class ProductUpdate extends Command
         $product = new Product();
         $products = $product->checkHasFromJsonProducts();
 
-        if ($products != 0)
-        {   
+        if ($products != 0) {   
             $idProducts = $this->option('id');
 
-            if (count($idProducts) != count($products)) 
-            {
+            if (count($idProducts) != count($products)) {
                 $this->info('Need '.count($products)." id!");
                 return 0;
             }

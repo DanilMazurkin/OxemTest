@@ -42,8 +42,7 @@ class CategoryCreate extends Command
         $category = new Category();
         $categories = $category->checkHasFromJsonCategories();
 
-        if ($categories != 0)
-        {
+        if ($categories != 0) {
             $category->createCategories($categories);
             $this->info('Categories from JSON was created!');
         } else 

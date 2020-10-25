@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\jsonForConsole;
+use App\Traits\validateJson;
 use Validator;
 
 class Product extends Model
 { 
 
-  use jsonForConsole;
+  use jsonForConsole, validateJson;
 
   protected $table = "products";
   public $timestamps = false;
@@ -27,10 +28,10 @@ class Product extends Model
 
   public function updateProducts($idProducts, $products) 
   {
+    
     $product = new Product;  
 
-    for ($i = 0; $i < count($idProducts); $i++)
-    { 
+    for ($i = 0; $i < count($idProducts); $i++) { 
 
       $name = $products[$i]['name'];
       $external_id = $products[$i]['external_id'];
@@ -46,17 +47,16 @@ class Product extends Model
       ]);
 
       $categories_id = $products[$i]['category_id'];
-      $categories = Category::find($categories_id);
-      $product->categories()->attach($categories);
+      $product->categories()->updateExistingPivot($product, array('category_id' => $categories_id));
     
     }
 
   }
 
-  public function createProducts($products) {
+  public function createProducts($products) 
+  {
       
-      for ($i = 0; $i < count($products); $i++) 
-      {
+      for ($i = 0; $i < count($products); $i++) {
         $name = $products[$i]['name'];
         $external_id = $products[$i]['external_id'];
         $price = $products[$i]['price'];
@@ -69,43 +69,13 @@ class Product extends Model
           'quantity' => $quantity
         ]);
 
-        $categories_id = $products[$i]['category_id'];
-        $categories = Category::find($categories_id);
+        $categoriesId = $products[$i]['category_id'];
+        $categories = Category::find($categoriesId);
         $product->categories()->attach($categories);
+        $product->save();
+
       }
 
   }
 
-  private function validateJson($products) 
-  {
-
-
-    for ($i = 0; $i < count($products); $i++) 
-    {
-      
-      $external_id = $products[$i]['external_id'];
-      $name = $products[$i]['name'];
-      $price = $products[$i]['price'];
-      $quantity = $products[$i]['quantity'];
-      $category_id = $products[$i]['category_id'];
-
-      $validator = Validator::make([
-                'external_id' => $external_id,
-                'name' => $name,
-                'price' => $price,
-                'quantity' => $quantity,
-                'category_id' => $category_id
-            ], [
-              'external_id' => ['required', 'integer'],
-              'name' => ['required', 'string','max:255'],
-              'price' => ['required', 'float'],
-              'quantity' => ['required', 'integer'],
-              'category_id' => ['required', 'array']
-      ]);
-
-    }
-
-
-
-  }
 }
