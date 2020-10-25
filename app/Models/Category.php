@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\jsonForConsole;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
 
 class Category extends Model
 {
+	use jsonForConsole;
+
     protected $table = "categories";
     public $timestamps = false;
 

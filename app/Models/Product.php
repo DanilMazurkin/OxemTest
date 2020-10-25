@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\jsonForConsole;
 use Validator;
 
 class Product extends Model
-{
+{ 
+
+  use jsonForConsole;
+
   protected $table = "products";
   public $timestamps = false;
 
@@ -20,22 +24,6 @@ class Product extends Model
 	{
     	return $this->belongsToMany(Category::class);
 	}
-
-   public function checkHasFromJson() 
-   {
-
-        $products_json = file_get_contents(public_path('json/products.json'));
-        $products = json_decode($products_json, true);
-          
-
-        if (isset($products))
-        {
-          $this->validateJson($products);
-          return $products;
-        } else
-          return 0;
-
-    } 
 
   public function updateProducts($idProducts, $products) 
   {

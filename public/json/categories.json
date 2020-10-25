@@ -1,5 +1,5 @@
 [
-	{"external_id": 1, "name": "UPDATE"},
-	{"external_id": 2, "name": "UPDATE"},
-	{"external_id": 3, "name": "UPDATE"}
+	{"external_id": 1, "name": "category 1"},
+	{"external_id": 2, "name": "category 2"},
+	{"external_id": 3, "name": "category 3"}
 ]

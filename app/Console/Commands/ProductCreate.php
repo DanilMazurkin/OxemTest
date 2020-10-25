@@ -44,7 +44,7 @@ class ProductCreate extends Command
     public function handle()
     {
         $product = new Product();
-        $products = $product->checkHasFromJson();
+        $products = $product->checkHasFromJsonProducts();
 
         if ($products != 0)
         {

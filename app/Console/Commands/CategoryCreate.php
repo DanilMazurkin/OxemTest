@@ -40,7 +40,7 @@ class CategoryCreate extends Command
     public function handle()
     {
         $category = new Category();
-        $categories = $category->checkHasFromJson();
+        $categories = $category->checkHasFromJsonCategories();
 
         if ($categories != 0)
         {

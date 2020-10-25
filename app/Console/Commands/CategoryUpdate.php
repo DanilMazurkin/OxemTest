@@ -41,7 +41,7 @@ class CategoryUpdate extends Command
     {   
 
         $category = new Category();
-        $categories = $category->checkHasFromJson();
+        $categories = $category->checkHasFromJsonCategories();
 
         if ($categories != 0)
         {   
