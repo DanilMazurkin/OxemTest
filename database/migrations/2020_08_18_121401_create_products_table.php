@@ -17,8 +17,13 @@ class CreateProductsTable extends Migration
             
             $table->bigIncrements('id');
             $table->timestamp('created_on');
+<<<<<<< HEAD
             $table->integer('external_id');
             $table->string('describe')->length(1000)->nullable()->default(NULL);
+=======
+            $table->unsignedBigInteger('external_id');
+            $table->string('describe')->length(1000)->default(NULL);
+>>>>>>> cdde48ce852857f8420cec12acf6b303763bac24
             $table->string('name')->length(200);
             $table->float('price', 8, 2);
             $table->integer('quantity');
