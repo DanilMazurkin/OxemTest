@@ -108,7 +108,7 @@
 10. > php artisan migrate
 11. > chown -R www-data:www-data /var/www
 12. > chmod 755 /var/www
-13. > php artisan passport:install 
+13. > php artisan --force passport:keys
 14. > php artisan db:seed
 
 ### Работа с консольной командой
