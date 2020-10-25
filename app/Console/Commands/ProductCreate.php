@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Carbon\Carbon;
-use App\Product;
-use App\Category;
+use App\Models\Product;
+use App\Models\Category;
 use Validator;
 
 class ProductCreate extends Command
@@ -33,6 +33,8 @@ class ProductCreate extends Command
     {
         parent::__construct();
     }
+
+   
 
     /**
      * Execute the console command.

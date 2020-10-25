@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Validator;
@@ -21,8 +21,8 @@ class Product extends Model
     	return $this->belongsToMany(Category::class);
 	}
 
-  public function checkHasFromJson() 
-  {
+   public function checkHasFromJson() 
+   {
 
         $products_json = file_get_contents(public_path('json/products.json'));
         $products = json_decode($products_json, true);
@@ -35,7 +35,7 @@ class Product extends Model
         } else
           return 0;
 
-  } 
+    } 
 
   public function updateProducts($idProducts, $products) 
   {

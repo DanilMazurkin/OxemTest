@@ -6,41 +6,42 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\ProductsFormRequest;
 use Carbon\Carbon;
-use App\Product;
-use App\Category;
+use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
 
-	public function index() {
+	public function index(Request $request) {
 
-		
-		if (empty($_GET['order']) && empty($_GET['field']))
+
+		if (empty($request->get('order')) && empty($request->get('sort')))
 			$products = Product::paginate(50);
 
 
-		if (!empty($_GET['field']))
+		if (!empty($request->get('sort')))
 		{	
-			if ($_GET['field'] == 'price')
+			if ($request->get('sort') == 'price')
 				$products = Product::orderBy('price')->paginate(50);
 		}
 		
 		
-		if (!empty($_GET['field'])) {
-			if ($_GET['field'] == 'created_on')
+		if (!empty($request->get('sort')))
+		{
+			if ($request->get('sort') == 'created_on')
 				$products = Product::orderBy('created_on')->paginate(50);
 		}
 
 		
-		if (!empty($_GET['order']) && !empty($_GET['field'])) 
+		if (!empty($request->get('order')) && !empty($request->get('sort'))) 
 		{	
-			if ($_GET['order'] == 'desc' && $_GET['field'] == 'price') 
+			if ($request->get('order') == 'desc' && $request->get('sort') == 'price') 
 				$products = Product::orderBy('price', 'DESC')->paginate(50);
 		}
 
-		if (!empty($_GET['order']) && !empty($_GET['field'])) 
+		if (!empty($request->get('order')) && !empty($request->get('sort'))) 
 		{
-			if ($_GET['order'] == 'desc' && $_GET['field'] == 'created_on')
+			if ($request->get('order') == 'desc' && $request->get('sort') == 'created_on')
 				$products = Product::orderBy('created_on', 'DESC')->paginate(50);
 		}
 
@@ -67,8 +68,7 @@ class ProductController extends Controller
 
     public function store(ProductsFormRequest $request) 
     {
-    	$now = Carbon::now();
-    	$product = Product::create(array_merge(['created_on' => $now], $request->input()));
+    	$product = Product::create(array_merge(['created_on' => Carbon::now()], $request->input()));
 
 	    return response()->json([
 	    		'id' => $product->id,

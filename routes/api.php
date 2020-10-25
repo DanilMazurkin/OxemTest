@@ -20,25 +20,22 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::group(['namespace' => 'Api'], function () {
-    
-    Route::group(['namespace' => 'Auth'], function () {
 
-        Route::post('register', 'RegisterController');
-        Route::post('login', 'LoginController');
-        Route::post('logout', 'LogoutController')->middleware('auth:api');
-    
-    });
+		Route::group(['namespace' => 'Auth'], function () {
 
-});
+	        Route::post('register', 'RegisterController');
+	        Route::post('login', 'LoginController');
+	        Route::post('logout', 'LogoutController')->middleware('auth:api');
+	    
+   		});
 
-Route::group(['namespace' => 'Api'], function () {
 
 		Route::middleware(['auth:api'])->group(function () {
 
 					Route::get('product/{id}', "ProductController@show");
 					Route::get('product/category/{id_category}', "ProductController@indexByCategory");
 					Route::get('product', "ProductController@index");
-					
+
 					Route::post('product', "ProductController@store");
 					Route::delete('product/{id}', "ProductController@destroy");
 
